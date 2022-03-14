@@ -9,7 +9,7 @@ class PostListController extends Controller
 {
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::withCount('comments')->get();
 
         return view('index', compact('posts'));
     }
