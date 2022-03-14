@@ -37,7 +37,9 @@ class PostListControllerTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('ブログのタイトル1')
-            ->assertSee('ブログのタイトル2');
+            ->assertSee('ブログのタイトル2')
+            ->assertSee($post1->user->name)
+            ->assertSee($post2->user->name);
     }
 
     /** @test */
