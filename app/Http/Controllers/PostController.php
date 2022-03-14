@@ -21,6 +21,14 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        // if ($post->status == Post::CLOSED) {
+        //     abort(403);
+        // }
+
+        if ($post->isClosed()) {
+            abort(403);
+        }
+
         return view('posts.show', compact('post'));
     }
 }
