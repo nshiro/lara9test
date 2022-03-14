@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class PostListControllerTest extends TestCase
+class PostControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -63,6 +63,23 @@ class PostListControllerTest extends TestCase
         $this->get('/')
             ->assertDontSee('これは非公開のブログです')
             ->assertSee('これは公開済みのブログです');
+    }
+
+    /** @test */
+    function ブログの詳細画面が表示できる()
+    {
+        $post = Post::factory()->create();
+
+        $this->get('posts/'.$post->id)
+            ->assertOk()
+            ->assertSee($post->title)
+            ->assertSee($post->user->name);
+    }
+
+    /** @test */
+    function ブログで非公開のものは、詳細画面は表示できない()
+    {
+
     }
 
     /** @test */

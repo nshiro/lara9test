@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostListController extends Controller
+class PostController extends Controller
 {
     public function index()
     {
@@ -17,5 +17,10 @@ class PostListController extends Controller
             ->get();
 
         return view('index', compact('posts'));
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
     }
 }
