@@ -10,6 +10,7 @@ class PostListController extends Controller
     public function index()
     {
         $posts = Post::query()
+            ->onlyOpen() // ->where('status', Post::OPEN)
             ->with('user')
             ->withCount('comments')
             ->orderByDesc('comments_count')
