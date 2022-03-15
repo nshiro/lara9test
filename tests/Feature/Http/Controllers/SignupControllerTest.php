@@ -57,9 +57,16 @@ class SignupControllerTest extends TestCase
         // $this->post($url, [])
         //     ->assertRedirect();
 
+        // 注意点
+        // (1) カスタムメッセージを設定している時は、そちらが優先される
+        // (2) 入力エラーが出る前に言語ファイルを読もうとしている箇所がある時は、
+        //      そちらもtestingに対応させる必要あり
+
+        app()->setLocale('testing');
+
         // $this->post($url, ['name' => ''])->assertSessionHasErrors(['name' => 'nameは必ず指定してください。']); // ->dumpSession()
-        $this->post($url, ['name' => ''])->assertInvalid(['name' => '指定']);
-        $this->post($url, ['name' => str_repeat('あ', 21)])->assertInvalid(['name' => '20文字以下']);
+        $this->post($url, ['name' => ''])->assertInvalid(['name' => 'required']);
+        $this->post($url, ['name' => str_repeat('あ', 21)])->assertInvalid(['name' => 'max']);
         $this->post($url, ['name' => str_repeat('あ', 20)])->assertvalid('name');
 
 
