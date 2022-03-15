@@ -26,6 +26,15 @@ class UserFactory extends Factory
         ];
     }
 
+    public function validData()
+    {
+        return [
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => 'hogehoge', // password
+        ];
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      *
