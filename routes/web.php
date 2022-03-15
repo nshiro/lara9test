@@ -14,3 +14,4 @@ Route::get('signup', [SignupController::class, 'index']);
 Route::post('signup', [SignupController::class, 'store']);
 
 Route::get('mypage/login', [UserLoginController::class, 'index']);
+Route::post('mypage/login', [UserLoginController::class, 'login']);
