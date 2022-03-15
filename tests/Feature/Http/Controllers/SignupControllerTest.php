@@ -54,6 +54,8 @@ class SignupControllerTest extends TestCase
         // $this->withoutExceptionHandling();
         $url = 'signup';
 
+        User::factory()->create(['email' => 'aaa@bbb.net']);
+
         // $this->post($url, [])
         //     ->assertRedirect();
 
@@ -69,6 +71,13 @@ class SignupControllerTest extends TestCase
         $this->post($url, ['name' => str_repeat('あ', 21)])->assertInvalid(['name' => 'max']);
         $this->post($url, ['name' => str_repeat('あ', 20)])->assertvalid('name');
 
+        $this->post($url, ['email' => ''])->assertInvalid(['email' => 'required']);
+        $this->post($url, ['email' => 'aa@bb@cc'])->assertInvalid(['email' => 'email']);
+        $this->post($url, ['email' => 'aa@ああ.net'])->assertInvalid(['email' => 'email']);
+        $this->post($url, ['email' => 'aaa@bbb.net'])->assertInvalid(['email' => 'unique']);
 
+        $this->post($url, ['password' => ''])->assertInvalid(['password' => 'required']);
+        $this->post($url, ['password' => 'abcd123'])->assertInvalid(['password' => 'min']);
+        $this->post($url, ['password' => 'abcd1234'])->assertValid('password');
     }
 }
