@@ -21,4 +21,13 @@ class PostManageController extends Controller
     {
         return view('mypage.posts.create');
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->only('title', 'body', 'status');
+
+        $post = auth()->user()->posts()->create($data);
+
+        return redirect('mypage/posts/edit/'.$post->id);
+    }
 }

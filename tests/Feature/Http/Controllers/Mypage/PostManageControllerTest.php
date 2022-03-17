@@ -43,4 +43,40 @@ class PostManageControllerTest extends TestCase
         $this->get('mypage/posts/create')
             ->assertOk();
     }
+
+    /** @test */
+    function マイページ、ブログを新規登録できる、公開の場合()
+    {
+        $this->withoutExceptionHandling();
+        [$taro, $me, $jiro] = User::factory(3)->create();
+
+        $this->login($me);
+
+        $validData = [
+            'title' => '私のブログタイトル',
+            'body' => '私のブログ本文',
+            'status' => '1',
+        ];
+
+        // $this->post('mypage/posts/create', $validData)
+        //     ->assertRedirect('mypage/posts/edit/1'); // SQLiteのインメモリ
+
+        $response = $this->post('mypage/posts/create', $validData);
+
+        $post = Post::first();
+
+        $response->assertRedirect('mypage/posts/edit/'.$post->id);
+
+        $this->assertDatabaseHas('posts', array_merge($validData, ['user_id' => $me->id]));
+    }
+
+    /** @test */
+    function マイページ、ブログを新規登録できる、非公開の場合()
+    {
+    }
+
+    /** @test */
+    function マイページ、ブログの登録時の入力チェック()
+    {
+    }
 }
