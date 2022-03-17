@@ -95,5 +95,18 @@ class PostManageControllerTest extends TestCase
     /** @test */
     function マイページ、ブログの登録時の入力チェック()
     {
+        $url = 'mypage/posts/create';
+
+        $this->login();
+
+        $this->from($url)->post($url, [])
+            ->assertRedirect($url);
+
+        app()->setLocale('testing');
+
+        $this->post($url, ['title' => ''])->assertInvalid(['title' => 'required']);
+        $this->post($url, ['title' => str_repeat('a', 256)])->assertInvalid(['title' => 'max']);
+        $this->post($url, ['title' => str_repeat('a', 255)])->assertValid('title');
+        $this->post($url, ['body' => ''])->assertInvalid(['body' => 'required']);
     }
 }
