@@ -24,7 +24,9 @@ class PostManageController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->only('title', 'body', 'status');
+        $data = $request->only('title', 'body');
+
+        $data['status'] = $request->boolean('status');
 
         $post = auth()->user()->posts()->create($data);
 
