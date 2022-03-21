@@ -20,6 +20,7 @@ class PostManageControllerTest extends TestCase
         $this->get('mypage/posts')->assertRedirect($loginUrl);
         $this->get('mypage/posts/create')->assertRedirect($loginUrl);
         $this->post('mypage/posts/create', [])->assertRedirect($loginUrl);
+        $this->get('mypage/posts/edit/1')->assertRedirect($loginUrl);
     }
 
     /** @test */
@@ -108,5 +109,37 @@ class PostManageControllerTest extends TestCase
         $this->post($url, ['title' => str_repeat('a', 256)])->assertInvalid(['title' => 'max']);
         $this->post($url, ['title' => str_repeat('a', 255)])->assertValid('title');
         $this->post($url, ['body' => ''])->assertInvalid(['body' => 'required']);
+    }
+
+    /** @test */
+    function 自分のブログの編集画面は開ける()
+    {
+        $post = Post::factory()->create();
+
+        $this->login($post->user);
+
+        $this->get('mypage/posts/edit/'.$post->id)
+            ->assertOk();
+    }
+
+    /** @test */
+    function 他人様のブログの編集画面は開けない()
+    {
+        $post = Post::factory()->create();
+
+        $this->login();
+
+        $this->get('mypage/posts/edit/'.$post->id)
+            ->assertForbidden();
+    }
+
+    /** @test */
+    function 他人様のブログは更新できない()
+    {
+    }
+
+    /** @test */
+    function 他人様のブログを削除はできない()
+    {
     }
 }

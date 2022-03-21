@@ -36,4 +36,15 @@ class PostManageController extends Controller
 
         return redirect('mypage/posts/edit/'.$post->id);
     }
+
+    public function edit(Post $post)
+    {
+        if (auth()->user()->isNot($post->user)) {
+            abort(403);
+        }
+
+        $data = old() ?: $post;
+
+        return view('mypage.posts.edit', compact('post', 'data'));
+    }
 }
