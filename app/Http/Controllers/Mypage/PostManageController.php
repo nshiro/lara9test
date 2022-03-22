@@ -51,7 +51,9 @@ class PostManageController extends Controller
     public function update(Post $post, Request $request)
     {
         // 所有チェック
-
+        if (auth()->user()->isNot($post->user)) {
+            abort(403);
+        }
 
         $data = $request->validate([
             'title' => ['required', 'max:255'],
