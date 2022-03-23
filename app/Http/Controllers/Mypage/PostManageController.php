@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mypage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -67,5 +68,14 @@ class PostManageController extends Controller
 
         return redirect(route('mypage.posts.edit', $post))
             ->with('status', 'ブログを更新しました');
+    }
+
+    public function destroy(Post $post)
+    {
+        // 所有チェック
+
+        $post->delete(); // 付随するコメントはDBの制約を使って削除する
+
+        return redirect('mypage/posts');
     }
 }
