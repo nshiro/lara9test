@@ -2,17 +2,20 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Http\Middleware\PostShowLimit;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class PostControllerTest extends TestCase
 {
     use RefreshDatabase;
+    // use WithoutMiddleware;
 
     /** @test */
     function TOPページで、ブログ一覧が表される()
@@ -70,6 +73,8 @@ class PostControllerTest extends TestCase
     /** @test */
     function ブログの詳細画面が表示でき、コメントが古い順に表示される()
     {
+        // $this->withoutMiddleware(PostShowLimit::class);
+
         $post = Post::factory()->create();
 
         [$comment1, $comment2, $comment3] = Comment::factory()->createMany([

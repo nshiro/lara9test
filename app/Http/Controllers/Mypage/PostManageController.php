@@ -35,7 +35,8 @@ class PostManageController extends Controller
 
         $post = auth()->user()->posts()->create($data);
 
-        return redirect('mypage/posts/edit/'.$post->id);
+        return redirect('mypage/posts/edit/'.$post->id)
+            ->with('status', 'ブログを登録しました');
     }
 
     public function edit(Post $post)

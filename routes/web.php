@@ -4,12 +4,14 @@ use App\Http\Controllers\Mypage\PostManageController;
 use App\Http\Controllers\Mypage\UserLoginController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SignupController;
+use App\Http\Middleware\PostShowLimit;
 use Illuminate\Support\Facades\Route;
 
 Route::get('', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show'])
     ->name('posts.show')
     ->whereNumber('post');
+    // ->middleware(PostShowLimit::class);
 
 Route::get('signup', [SignupController::class, 'index']);
 Route::post('signup', [SignupController::class, 'store']);
