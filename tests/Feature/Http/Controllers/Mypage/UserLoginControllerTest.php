@@ -92,7 +92,7 @@ class UserLoginControllerTest extends TestCase
                 ->assertRedirect();
             $this->fail('例外が発生しませんでしたよ。');
         } catch (ValidationException $e) {
-            $this->assertSame('emailは必ず指定してください。',
+            $this->assertSame('メールアドレスは必ず指定してください。',
                 $e->errors()['email'][0]
             );
         }
